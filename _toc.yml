@@ -1,0 +1,15 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Docs
+    chapters:
+      - file: Introduction
+      - file: Implementation
+      - file: Conclusion
+  - caption: Source Code
+    chapters:
+      - file: csv-render
+      - file: widget-script
