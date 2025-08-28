@@ -25,8 +25,22 @@
 
 ## 系統架構
 
-網站編輯流程：
-- 使用者在 **Decap CMS** 編輯器中輸入資料  
-- 編輯結果自動存入 GitHub 儲存庫  
-- **Netlify** 負責自動化部署，將內容交由 **Hexo** 轉換成靜態頁面  
-- CSV 與 JSON 經由 Widget 處理，最終以 HTML table 或樹狀結構渲染  
+### 整體流程
+1.  **使用者編輯**
+    - 在 Decap CMS 編輯器中，使用者透過 CSV Widget 的 **textarea** 介面輸入表格資料。
+2.  **Widget 轉換**
+    - CSV Widget 將輸入的內容包裹在 `<csv-table> ... </csv-table>` 區塊中。
+    - 這個區塊直接儲存在 Markdown 檔案內，確保資料與其他內容（文字、圖片）一同版本控製。
+    範例：
+    `# Example PostHere is my data:<csv-table>place,nameTaiwan,Andy"New York, USA",Amy</csv-table>`
+    
+3.  **GitHub 儲存**
+    - 當使用者點擊「Save」或「Publish」時，Decap CMS 會將修改後的 Markdown 檔案推送到 GitHub repository。
+    - 因為 `<csv-table>` 本質上仍是純文字區塊，所以不需要額外的檔案存放格式，直接享有 Git 的版本控管。
+        
+4.  **Netlify 自動部署**
+    - Netlify 偵測到 GitHub 的變更後，觸發 CI/CD pipeline，重新生成靜態網站。
+5.  **Hexo 轉換與渲染**
+    - Hexo 在編譯時會讀取 Markdown 檔案。
+    - 遇到 `<csv-table>` 標籤時，Widget 的 `toPreview()` / `toBlock()` 已經確保格式正確，因此會輸出為 `<table> ... </table>` HTML 結構。
+    - 這些 HTML 會被嵌入最終的靜態頁面中。
