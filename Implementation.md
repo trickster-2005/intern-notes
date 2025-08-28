@@ -1,4 +1,4 @@
-# Implementation
+# Implementation 實作
 ## 計畫初期設計
 在八月中實作了兩個主要功能：
 1. **CSV 編輯器**：基於 Handsontable，提供類似 Excel 的直覺操作。 
